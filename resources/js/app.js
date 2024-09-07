@@ -5,14 +5,13 @@ import { createApp } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
-import App from "./Layouts/App.vue";
 import router from "./routes/index";
 import VueSweetalert2 from "vue-sweetalert2";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 // const router = createRouter({ history: createWebHistory(), routes });
 
-createApp(App).use(router).use(VueSweetalert2).mount("#app");
+createApp({}).use(router).use(VueSweetalert2).mount("#app");
 
 // createInertiaApp({
 //     title: (title) => `${title} - ${appName}`,

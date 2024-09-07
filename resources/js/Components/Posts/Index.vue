@@ -1,9 +1,15 @@
 <template>
     <div class="overflow-hidden overflow-x-auto p-6 bg-white border-gray-200">
         <div class="min-w-full align-middle">
-            <div class="mb-4 grid lg:grid-cols-4">
-                <input v-model="search_global" type="text" placeholder="Search..."
-                    class="inline-block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            <div class="mb-4">
+                <select v-model="selectedCategory" class="block mt-1 w-full sm:w-1/4 rounded-md sh">
+                    <option value="" selected>&#45;&#45; Filter by category &#45;&#45;</option>
+                    <option v-for="category in categories" :value="category.id" :key="category.id">
+                        {{ category.name }}
+                    </option>
+                </select>
+                <!-- <input v-model="search_global" type="text" placeholder="Search..."
+                    class="inline-block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"> -->
             </div>
 
             <table class="min-w-full divide-y divide-gray-200 border">
@@ -161,19 +167,16 @@ onMounted(() => {
     getCategories();
 });
 
-watch(selectedCategory, (current, previous, orderColumn, orderDirection) => {
-    getPosts(1, current, orderColumn.value, orderDirection.value);
-});
+watch(search_category, (current, previous) => {
+    getPosts(
+        1,
+        current,
+        search_id.value,
+        search_title.value,
+        search_content.value
+    )
+})
 
-const sort = (column) => {
-    if (orderColumn.value === column) {
-        orderDirection.value = orderDirection.value === 'asc' ? 'desc' : 'asc';
-    } else {
-        orderColumn.value = column;
-        orderDirection.value = 'asc';
-    }
-    getPosts(1, selectedCategory.value);
-};
 const updateOrdering = (column) => {
     orderColumn.value = column;
     orderDirection.value = (orderDirection.value === 'asc') ? 'desc' : 'asc';
@@ -182,6 +185,8 @@ const updateOrdering = (column) => {
         search_id.value,
         search_title.value,
         search_content.value,
+        orderColumn.value,
+        orderDirection.value,
     );
 }
 watch(search_id, (current, previous) => {
@@ -203,6 +208,7 @@ watch(search_title, (current, previous) => {
         search_content.value
     )
 })
+
 watch(search_content, (current, previous) => {
     getPosts(
         1,
@@ -212,4 +218,24 @@ watch(search_content, (current, previous) => {
         current
     )
 })
+
+watch(search_content, (current, previous) => {
+    getPosts(
+        1,
+        search_category.value,
+        search_id.value,
+        search_title.value,
+        current
+    )
+})
+watch(search_category, (current, previous) => {
+    getPosts(
+        1,
+        current,
+        search_id.value,
+        search_title.value,
+        search_content.value
+    )
+})
+
 </script>

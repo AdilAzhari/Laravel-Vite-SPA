@@ -11,13 +11,14 @@ export default function usePosts() {
 
     const getPosts = async (
         page = 1,
-        category = "",
+        // category = "",
         order_column = "created_at",
         order_direction = "desc",
         search_category = "",
         search_id = "",
         search_title = "",
-        search_content = ""
+        search_content = "",
+        search_global = ""
     ) => {
         axios
             .get(
@@ -31,6 +32,8 @@ export default function usePosts() {
                     search_title +
                     "&search_content=" +
                     search_content +
+                    "&search_global=" +
+                    search_global +
                     "&order_column=" +
                     order_column +
                     "&order_direction=" +

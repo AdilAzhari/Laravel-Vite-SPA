@@ -33,6 +33,9 @@ class PostController extends Controller
             ->when(request('search_content'), function (Builder $query) {
                 $query->where('content', 'like', '%' . request('search_content') . '%');
             })
+            ->when(request('search_global'), function (Builder $query) {
+                $query->whereAny(['id', 'title', 'content'], request('search_global'));
+            })
             ->orderBy($orderColumn, $orderDirection)
             ->paginate(10);
         return PostResource::collection($posts);
